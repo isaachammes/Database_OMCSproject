@@ -1,0 +1,77 @@
+<!doctype html>
+<title>Online Master's in Computer Science Programs</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<body style="background-image: url('https://wallpaperplay.com/walls/full/1/9/5/28193.jpg');">
+
+<div class=page style="background-color: darkblue;">
+  <h1 style="background-color: royalblue; color: midnightblue;">Online Master's in Computer Science Programs</h1>
+
+<div style="float: right; color: deepskyblue; background-color: darkblue; margin-right: 10px;">
+     <h2 style="color: deepskyblue;" align="left">Instructions:</h2>
+     <p>To search for a program, simply enter the maximum tuition cost per credit hour (this is based<br>
+	on out-of-state tuition rates), select if GRE is required for admissions, and enter the maximum<br> 
+	number of recommendation letters required for admissions(integer from 0-3).<br> 
+	Note: All fields are required to search. To view all programs, leave "Maximum Tuition" blank.<br> 
+	To view the concentrations available for their program, simply enter the name of the university<br> 
+	as it appears in the "Programs" table and click "Show Concentrations". If you want to see the<br> 
+	full list of concentrations, leave the field blank.</p>
+     <h2 style="color: deepskyblue;" align="left">Data Info:</h2>
+     <p>I collected the data on 3/17/2020 by Google searching until I could not find any new programs.<br>
+	For-profit colleges were intentionally left out. I did my best to collect accurate data, but<br>
+	it may not be perfect. The "Essay" column could be an essay or statement of purpose. The GRE<br>
+	Yes/No is based on an individual who has over a 3.0 gpa, a relevant bachelor's, and no work<br>
+	experience. The tuition information is based on 9 credit per semester pricing if the college<br>
+	charged different prices per credit based on the number of credits taken. Information on<br> 
+	concentrations was hard to find for some colleges, so I only listed specific concentrations<br>
+	if the college website had it clearly stated. Only fully online master's in computer science<br> 
+	degrees were included (no software engineering, data science, IT, etc.). I hope this information<br> 
+	can be helpful!</p>
+</div>
+
+<form action = "" method = "post">
+<div style="margin-left: 15px;">
+<br>
+    <div class="line">
+        <label for="input">Maximum Tuition Per Credit(only use numbers)</label>
+        <div class="input">
+            <input type="text" id="tuition" name="tuition">
+        </div>
+    </div>
+    <div class="line">
+        <label for="input">GRE</label>
+        <div class="input">
+		<input type="radio" id="Yes" name="GRE" value="Yes">
+		<label for="Yes">Yes</label><br>
+		<input type="radio" id="No" name="GRE" value="No">
+		<label for="No">No</label>
+        </div>
+    </div>
+    <div class="line">
+        <label for="input">Letters of Recommendation(number between 0 and 3)</label>
+        <div class="input">
+            <input type="number" size="1" id="recommendations" name="recommendations">
+        </div>
+    </div>
+<input type="submit" name="submit" value="Show Programs" style="background-color: lightgray;">
+</div>
+</form>
+
+<form action = "" method = "post">
+<div class="line" style="background-color: darkblue; margin-left: 15px;">
+        <label for="input">Name of University</label>
+        <div class="input">
+            <input type="text" id="university" name="university">
+        </div>
+<input type="submit" name="submit" value="Show Concentrations" style="background-color: lightgray;">
+<br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
+</form>
+</div>
+
+<div style="background-image: url('https://wallpaperplay.com/walls/full/1/9/5/28193.jpg'); clear:both;" align="center">   
+<h1 style="background-color: royalblue; color: midnightblue; text-align:center;">{{variable}}</h1>
+  {% for table in tables %}
+    {{ table|safe }}
+  {% endfor %}
+</div> 
+</body>

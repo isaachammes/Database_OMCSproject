@@ -1,0 +1,25 @@
+body            	{ font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;}
+a, h1, h2, label        { color: deepskyblue;}
+h1              	{ border-bottom: 4px solid lightgray; border-top: 4px solid lightgray; text-shadow: 1.5px 0.5px lightgray;}
+h2              	{ font-size: 1.2em; color: darkblue; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;}
+label                   { font-weight: bold; margin-left: 5px; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;}
+
+table.dataframe, .dataframe th, .dataframe td {
+  border: none;
+  border-bottom: 1px solid #C8C8C8;
+  border-collapse: collapse;
+  text-align: left;
+  padding: 10px;
+  margin-bottom: 40px;
+  font-size: 0.9em;
+}
+
+.data th {
+    background-color: deepskyblue;
+    color: mediumblue;
+}
+
+tr:nth-child(odd)		{ background-color:lightcyan; }
+tr:nth-child(even)	{ background-color:honeydew; }
+
+tr:hover            { background-color: aqua;}
