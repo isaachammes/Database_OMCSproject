@@ -41,7 +41,5 @@ def result():
     df = pd.DataFrame.from_dict(result)
     return render_template('home.html',tables=[df.to_html(classes='data')],variable=title)
 
-if __name__ == '__main__':
-    app.run(debug=True)
 
 
