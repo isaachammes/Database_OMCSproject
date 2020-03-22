@@ -15,7 +15,7 @@ mysql = MySQL(app)
 @app.route('/', methods=['post', 'get'])
 def result():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT Name AS University, City, State, Type, InStateTuition AS 'In State Tuition', OutStateTuition AS 'Out of State Tuition', RequiredCredits AS 'Required Credits', ROUND((OutStateTuition*RequiredCredits), 2) AS 'Total Cost' FROM Programs ORDER BY 'Total Cost' ASC;")
+    cur.execute("SELECT Name AS University, City, State, Type, InStateTuition AS 'In State Tuition', OutStateTuition AS 'Out of State Tuition', RequiredCredits AS 'Required Credits', ROUND((OutStateTuition*RequiredCredits), 2) AS 'Total Cost' FROM Programs ORDER BY (OutStateTuition*RequiredCredits) ASC;")
     result = cur.fetchall()
     df = pd.DataFrame.from_dict(result)
     title = 'Programs'
