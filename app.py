@@ -15,8 +15,9 @@ mysql = MySQL(app)
 @app.route('/', methods=['post', 'get'])
 def result():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT Name AS University, City, State, Type, InStateTuition AS 'In State Tuition', OutStateTuition AS 'Out of State Tuition', RequiredCredits AS 'Required Credits', ROUND((OutStateTuition*RequiredCredits), 2) AS 'Total Cost' FROM Programs ORDER BY (OutStateTuition*RequiredCredits) ASC;")
+    cur.execute("SELECT Name AS University, City, State, Type, InStateTuition AS 'In State Tuition', OutStateTuition AS 'Out of State Tuition', RequiredCredits AS 'Required Credits', ROUND((OutStateTuition*RequiredCredits), 2) AS 'Total Cost' FROM Programs ORDER BY 'Total Cost' ASC;")
     result = cur.fetchall()
+    df = pd.DataFrame.from_dict(result)
     title = 'Programs'
     if request.method == 'POST':
         if request.form.get("submit") == "Show Programs":
@@ -24,11 +25,13 @@ def result():
             gre = str(request.form.get("GRE"))
             recommendations = str(request.form.get("recommendations"))
             if maxtuition == "":
-                query = "SELECT Name AS 'University', City, State, Type, InStateTuition AS 'In State Tuition', OutStateTuition AS 'Out of State Tuition', RequiredCredits AS 'Required Credits', ROUND((OutStateTuition*RequiredCredits), 2) AS 'Total Cost' FROM Programs ORDER BY (OutStateTuition*RequiredCredits) ASC;"
+                query = "SELECT Name AS 'University', City, State, Type, InStateTuition AS 'In State Tuition', OutStateTuition AS 'Out of State Tuition', RequiredCredits AS 'Required Credits', ROUND((OutStateTuition*RequiredCredits), 2) AS 'Total Cost', Essay, GRE, Recommendations FROM Programs, Application_Requirements ORDER BY (OutStateTuition*RequiredCredits) ASC;"
             else:
                 query = "SELECT Name AS 'University', City, State, Type, InStateTuition AS 'In State Tuition', OutStateTuition AS 'Out of State Tuition', RequiredCredits AS 'Required Credits', ROUND((InStateTuition*RequiredCredits), 2) AS 'Total Cost', Essay, GRE, Recommendations FROM Programs, Application_Requirements WHERE ApplicationRequirements=ID AND OutStateTuition<="+maxtuition+" AND GRE='"+gre+"' AND Recommendations<="+recommendations+" ORDER BY (OutStateTuition*RequiredCredits) ASC;"  
             cur.execute(query)
             result = cur.fetchall()
+            df = pd.DataFrame.from_dict(result)
+            df = df[['University','City','State','Type','In State Tuition','Out of State Tuition','Required Credits','Total Cost','Essay', 'GRE', 'Recommendations']]
         if request.form.get("submit") == "Show Concentrations":
             university = str(request.form.get("university"))
             if university == "":
@@ -38,8 +41,9 @@ def result():
             cur.execute(query)
             result = cur.fetchall()
             title = 'Concentrations'
-    df = pd.DataFrame.from_dict(result)
-    return render_template('home.html',tables=[df.to_html(classes='data')],variable=title)
+            df = pd.DataFrame.from_dict(result)
+            df = df[['University','Concentration']]
+    return render_template('home.html',tables=[df.to_html(classes='data')], titles=df.columns.values, variable=title)
 
 
 
