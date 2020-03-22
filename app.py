@@ -19,6 +19,7 @@ def result():
     result = cur.fetchall()
     df = pd.DataFrame.from_dict(result)
     title = 'Programs'
+    df = df[['University','City','State','Type','In State Tuition','Out of State Tuition','Required Credits','Total Cost']]
     if request.method == 'POST':
         if request.form.get("submit") == "Show Programs":
             maxtuition = str(request.form.get("tuition"))
