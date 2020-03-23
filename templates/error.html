@@ -4,7 +4,7 @@
 <body style="background-image: url('https://wallpaperplay.com/walls/full/1/9/5/28193.jpg');">
 
 <div class=page style="background-color: darkblue;">
-<h1 style="background-color: royalblue; color: midnightblue;">Online Master's in Computer Science Programs</h1>
+  <h1 style="background-color: royalblue; color: midnightblue;">Online Master's in Computer Science Programs</h1>
 
 <div style="float: right; color: deepskyblue; background-color: darkblue; margin-right: 10px;">
      <h2 style="color: deepskyblue;" align="left">Data Info:</h2>
@@ -18,14 +18,13 @@
     <li>GRE: Whether the GRE is required or not. This is based on a student with a bachelor's in a<br>
         related degree, no work experience, and above a 3.0 gpa.</li>
     <li>Recommendations: Number of letters of recommendation that are required for admission.</li>
-    <li>Concentrations: Concentrations listed on school website. General means none were clearly<br>
+    <li>Concentrations: Concentrations listed on school website. General means none were clearly<br> 
         stated.</li>
    </u>
 </div>
 
 <form action = "" method = "post">
 <div style="margin-left: 15px; margin-bottom: 10px; background-color: darkblue;">
-<br>
     <div class="line">
         <label for="input">Maximum Total Cost</label>
         <div class="input">
@@ -78,10 +77,12 @@
         <div class="input">
             <input type="text" id="university" name="university">
         </div>
-<input type="submit" name="submit" value="Show Concentrations" style="background-color: lightgray; margin-bottom: 10px;">
+<p style="color: red; font-weight: bold;">No entries found. Try again!</p>
+<input type="submit" name="submit" value="Show Concentrations" style="background-color: lightgray; margin: bottom 10px;">
 </div>
 </form>
 </div>
+
 <div style="background-image: url('https://wallpaperplay.com/walls/full/1/9/5/28193.jpg'); clear:both;" align="center">   
 <h1 style="background-color: royalblue; color: midnightblue; text-align:center;">{{variable}}</h1>
   {% for table in tables %}
