@@ -6,10 +6,10 @@ pd.options.display.float_format = '${:,.2f}'.format
 
 app = Flask(__name__, instance_relative_config=False)
 
-app.config['MYSQL_USER'] = 'sql3328725'
-app.config['MYSQL_PASSWORD'] = '768K4VAYyz'
-app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
-app.config['MYSQL_DB'] = 'sql3328725'
+app.config['MYSQL_USER'] = 
+app.config['MYSQL_PASSWORD'] = 
+app.config['MYSQL_HOST'] = 
+app.config['MYSQL_DB'] = 
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
