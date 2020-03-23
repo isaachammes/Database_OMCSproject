@@ -2,6 +2,8 @@ from flask import Flask, render_template, request
 from flask_mysqldb  import MySQL
 import pandas as pd
 
+pd.options.display.float_format = '${:,.2f}'.format
+
 app = Flask(__name__, instance_relative_config=False)
 
 app.config['MYSQL_USER'] = 'sql3328725'
@@ -15,24 +17,30 @@ mysql = MySQL(app)
 @app.route('/', methods=['post', 'get'])
 def result():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT Name AS University, City, State, Type, ROUND(InStateTuition, 0) AS 'In State Tuition', ROUND(OutStateTuition, 0) AS 'Out of State Tuition', RequiredCredits AS 'Required Credits', ROUND((OutStateTuition*RequiredCredits), 0) AS 'Total Cost' FROM Programs ORDER BY (OutStateTuition*RequiredCredits) ASC;")
+    cur.execute("SELECT Name AS University, City, State, Type, InStateTuition AS 'In State Tuition', OutStateTuition AS 'Out of State Tuition', RequiredCredits AS 'Required Credits', (OutStateTuition*RequiredCredits) AS 'Total Cost' FROM Programs ORDER BY (OutStateTuition*RequiredCredits) ASC;")
     result = cur.fetchall()
     df = pd.DataFrame.from_dict(result)
     title = 'Programs'
     df = df[['University','City','State','Type','In State Tuition','Out of State Tuition','Required Credits','Total Cost']]
+    #df['In State Tuition'] = '$'+str(df['In State Tuition'].astype(int))
+    #df['Out of State Tuition'] = '$'+str(df['Out of State Tuition'].astype(int))
+    #df['Total Cost'] = '$'+str(df['Total Cost'].astype(int))
     if request.method == 'POST':
         if request.form.get("submit") == "Show Programs":
             maxtuition = str(request.form.get("tuition"))
             gre = str(request.form.get("GRE"))
             recommendations = str(request.form.get("recommendations"))
             if maxtuition == "":
-                query = "SELECT Name AS 'University', City, State, Type, ROUND(InStateTuition, 0) AS 'In State Tuition', ROUND(OutStateTuition, 0) AS 'Out of State Tuition', RequiredCredits AS 'Required Credits', ROUND((OutStateTuition*RequiredCredits), 0) AS 'Total Cost', Essay, GRE, Recommendations FROM Programs, Application_Requirements WHERE ApplicationRequirements=ID ORDER BY (OutStateTuition*RequiredCredits) ASC;"
+                query = "SELECT Name AS 'University', City, State, Type, InStateTuition AS 'In State Tuition', OutStateTuition AS 'Out of State Tuition', RequiredCredits AS 'Required Credits', (OutStateTuition*RequiredCredits) AS 'Total Cost', Essay, GRE, Recommendations FROM Programs, Application_Requirements WHERE ApplicationRequirements=ID ORDER BY (OutStateTuition*RequiredCredits) ASC;"
             else:
-                query = "SELECT Name AS 'University', City, State, Type, ROUND(InStateTuition, 0) AS 'In State Tuition', ROUND(OutStateTuition, 0) AS 'Out of State Tuition', RequiredCredits AS 'Required Credits', ROUND((OutStateTuition*RequiredCredits), 0) AS 'Total Cost', Essay, GRE, Recommendations FROM Programs, Application_Requirements WHERE ApplicationRequirements=ID AND OutStateTuition<="+maxtuition+" AND GRE='"+gre+"' AND Recommendations<="+recommendations+" ORDER BY (OutStateTuition*RequiredCredits) ASC;"  
+                query = "SELECT Name AS 'University', City, State, Type, InStateTuition AS 'In State Tuition', OutStateTuition AS 'Out of State Tuition', RequiredCredits AS 'Required Credits', (OutStateTuition*RequiredCredits) AS 'Total Cost', Essay, GRE, Recommendations FROM Programs, Application_Requirements WHERE ApplicationRequirements=ID AND OutStateTuition<="+maxtuition+" AND GRE='"+gre+"' AND Recommendations<="+recommendations+" ORDER BY (OutStateTuition*RequiredCredits) ASC;"  
             cur.execute(query)
             result = cur.fetchall()
             df = pd.DataFrame.from_dict(result)
             df = df[['University','City','State','Type','In State Tuition','Out of State Tuition','Required Credits','Total Cost','Essay', 'GRE', 'Recommendations']]
+            #df['In State Tuition'] = '$'+str(df['In State Tuition'].astype(int))
+            #df['Out of State Tuition'] = '$'+str(df['Out of State Tuition'].astype(int))
+            #df['Total Cost'] = '$'+str(df['Total Cost'].astype(int))
         if request.form.get("submit") == "Show Concentrations":
             university = str(request.form.get("university"))
             if university == "":
