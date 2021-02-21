@@ -1,1 +1,1 @@
-My first app: https://online-masters-cs.herokuapp.com/
+Simple website using Flask and a MySQL Database
